@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter@Getter
@@ -14,7 +16,7 @@ import java.util.List;
 public class CharacterEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="char_id")
     private Long id;
 
@@ -25,8 +27,8 @@ public class CharacterEntity {
     private String history;
 
 
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL)
-    private List<MovieEntity> movies = new ArrayList<>();
+    @ManyToMany(mappedBy = "characters")
+    private Set<MovieEntity> movies = new HashSet<>();
 
 
 }

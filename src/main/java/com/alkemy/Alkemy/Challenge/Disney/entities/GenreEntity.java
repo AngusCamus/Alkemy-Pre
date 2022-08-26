@@ -14,13 +14,13 @@ public class GenreEntity {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="genre_id")
     private Long id;
 
     private String name;
     private String image;
-
+    @OneToMany(mappedBy = "genre")
     private List<MovieEntity> movies;
 
 
