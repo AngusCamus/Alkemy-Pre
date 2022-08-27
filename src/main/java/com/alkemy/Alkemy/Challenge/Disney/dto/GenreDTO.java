@@ -1,10 +1,9 @@
 package com.alkemy.Alkemy.Challenge.Disney.dto;
 
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Getter@Setter

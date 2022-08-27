@@ -1,10 +1,11 @@
 package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
+import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -149,5 +150,19 @@ public class MovieMapper {
         movieDTO.setTitle(entity.getTitle());
 
         return movieDTO;
+    }
+
+    public List<MovieBasicDTO> movieEntityList2BasicDTOList(List<MovieEntity> moviesEntity) {
+
+        List<MovieBasicDTO> dtos = new ArrayList<>();
+
+        for(MovieEntity entity : moviesEntity) {
+            MovieBasicDTO movieDTO = new MovieBasicDTO();
+            movieDTO.setImage(entity.getImage());
+            movieDTO.setTitle(entity.getTitle());
+            dtos.add(movieDTO);
+        }
+        return dtos;
+
     }
 }

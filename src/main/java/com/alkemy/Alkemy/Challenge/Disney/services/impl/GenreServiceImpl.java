@@ -1,7 +1,7 @@
 package com.alkemy.Alkemy.Challenge.Disney.services.impl;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.GenreDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.GenreEntity;
 import com.alkemy.Alkemy.Challenge.Disney.mappers.GenreMapper;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.GenreRepository;
 import com.alkemy.Alkemy.Challenge.Disney.services.GenreService;

@@ -2,15 +2,10 @@ package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
 
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;

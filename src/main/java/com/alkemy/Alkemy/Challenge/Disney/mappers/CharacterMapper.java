@@ -1,10 +1,11 @@
 package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
+import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -145,6 +146,18 @@ public class CharacterMapper {
         entityUpdated.setAge(dto.getAge());
 
         return entityUpdated;
+    }
+
+    public List<CharacterBasicDTO> characterEntityList2BasicDTOList(List<CharacterEntity> entities) {
+        List<CharacterBasicDTO> result = new ArrayList<>();
+        for (CharacterEntity entity : entities){
+            CharacterBasicDTO charDTO = new CharacterBasicDTO();
+            charDTO.setImage(entity.getImage());
+            charDTO.setName(entity.getName());
+            result.add(charDTO);
+        }
+        return result;
+
     }
     //E2UpdateDTO
 }

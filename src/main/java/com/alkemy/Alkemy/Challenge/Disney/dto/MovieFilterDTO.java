@@ -1,21 +1,20 @@
 package com.alkemy.Alkemy.Challenge.Disney.dto;
 
 
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
 public class MovieFilterDTO {
 
     private String title;
-    private GenreEntity genre;
+    private String genre;
     private String order;
+
+    public MovieFilterDTO(String name, String genre, String order) {
+    }
 
 
     public boolean isASC(){

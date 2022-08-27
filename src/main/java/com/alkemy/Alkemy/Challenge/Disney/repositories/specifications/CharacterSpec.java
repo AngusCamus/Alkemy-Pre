@@ -1,8 +1,8 @@
 package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -13,7 +13,6 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CharacterSpec {
 

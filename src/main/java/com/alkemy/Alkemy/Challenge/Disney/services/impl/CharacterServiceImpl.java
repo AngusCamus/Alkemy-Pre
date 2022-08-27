@@ -1,26 +1,35 @@
 package com.alkemy.Alkemy.Challenge.Disney.services.impl;
 
+import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
+import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
 import com.alkemy.Alkemy.Challenge.Disney.mappers.CharacterMapper;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
+import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.CharacterSpec;
 import com.alkemy.Alkemy.Challenge.Disney.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
 
-    @Autowired
     CharacterRepository characterRepository;
-    @Autowired
     CharacterMapper characterMapper;
+    CharacterSpec characterSpec;
 
+    @Autowired
+    public CharacterServiceImpl(CharacterRepository characterRepository, CharacterMapper characterMapper, CharacterSpec characterSpec) {
+        this.characterRepository = characterRepository;
+        this.characterMapper = characterMapper;
+        this.characterSpec = characterSpec;
+    }
 
     @Override
     public CharacterDTO getById(Long id) {
@@ -51,10 +60,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public CharacterDTO deleteCharacterById(Long id) {
+    public void deleteCharacterById(Long id) {
+        characterRepository.deleteById(id);
 
-
-        return null;
     }
 
     @Override
@@ -64,6 +72,16 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterEntity charUpdated = characterMapper.characterUpdateDTO2EntityUpdated(dto, character);
         CharacterDTO dtoUpdated = characterMapper.characterEntity2DTO(charUpdated, true);
         return dtoUpdated;
+    }
+
+    @Override
+    public List<CharacterBasicDTO> getByFilters(String name, Integer age, Set<Long> movies) {
+        CharacterFilterDTO filterDTO = new CharacterFilterDTO(age, name, movies);
+
+        List<CharacterEntity> entities = characterRepository.findAllBySpec(characterSpec.getByFilters(filterDTO));
+
+        List<CharacterBasicDTO> characters = characterMapper.characterEntityList2BasicDTOList(entities);
+        return characters;
     }
 
 }

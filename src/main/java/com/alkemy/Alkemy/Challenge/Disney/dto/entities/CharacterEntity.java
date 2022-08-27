@@ -1,17 +1,19 @@
-package com.alkemy.Alkemy.Challenge.Disney.entities;
+package com.alkemy.Alkemy.Challenge.Disney.dto.entities;
 
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Setter@Getter
+@SQLDelete(sql= "UPDATE characters SET deleted = true WHERE id=?")
+@Where(clause= "deleted=false")
 @Table(name="characters")
 public class CharacterEntity {
 
@@ -24,6 +26,7 @@ public class CharacterEntity {
     private Integer age;
     private Integer weight;
     private String history;
+    private boolean deleted = Boolean.FALSE;
 
 
     @ManyToMany(mappedBy = "characters")

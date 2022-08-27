@@ -1,9 +1,9 @@
 package com.alkemy.Alkemy.Challenge.Disney.services;
 
 
+import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 
 import java.util.List;
 
@@ -16,7 +16,9 @@ public interface MovieService  {
     //retrieve all
     List<MovieDTO> getAllMovies();
     //delete by id
-    MovieDTO deleteMovie(Long id);
+    void deleteMovie(Long id);
     //update
     MovieDTO updateMovie(MovieUpdateDTO dto, Long id );
+
+    List<MovieBasicDTO> getByFilter(String name, String genre, String order);
 }

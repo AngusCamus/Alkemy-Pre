@@ -1,7 +1,7 @@
 package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.GenreDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.entities.GenreEntity;
 import org.springframework.stereotype.Component;
 
 @Component
