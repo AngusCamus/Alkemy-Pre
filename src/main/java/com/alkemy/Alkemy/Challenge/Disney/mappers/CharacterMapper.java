@@ -2,6 +2,7 @@ package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
+import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
 import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
@@ -33,8 +34,8 @@ public class CharacterMapper {
         charDTO.setWeight(entity.getWeight());
         charDTO.setName(entity.getName());
         if (loadMovies){
-            Set<MovieDTO> movieDTOs = moviesMapper.movieEntitySet2DTOSet(entity.getMovies(), false);
-            Set<MovieEntity> movies = moviesMapper.movieDTOSet2EntitySet(movieDTOs);
+            Set<MovieDTO> movieDTOs = movieMapper.movieEntitySet2DTOSet(entity.getMovies(), false);
+            Set<MovieEntity> movies = movieMapper.movieDTOSet2EntitySet(movieDTOs);
             charDTO.setMovies(movies);
         }
 
@@ -106,8 +107,8 @@ public class CharacterMapper {
             charDTO.setName(entity.getName());
             result.add(charDTO);
             if (loadMovies){
-                Set<MovieDTO> movieDTOs = moviesMapper.movieEntitySet2DTOSet(entity.getMovies(), false);
-                Set<MovieEntity> movies = moviesMapper.movieDTOSet2EntitySet(movieDTOs);
+                Set<MovieDTO> movieDTOs = movieMapper.movieEntitySet2DTOSet(entity.getMovies(), false);
+                Set<MovieEntity> movies = movieMapper.movieDTOSet2EntitySet(movieDTOs);
                 charDTO.setMovies(movies);
             }
         }

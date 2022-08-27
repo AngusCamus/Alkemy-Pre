@@ -19,7 +19,6 @@ public class CharacterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="char_id")
     private Long id;
-
     private String image;
     private String name;
     private Integer age;

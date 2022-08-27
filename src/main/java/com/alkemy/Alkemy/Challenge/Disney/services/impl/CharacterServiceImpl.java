@@ -28,7 +28,7 @@ public class CharacterServiceImpl implements CharacterService {
         Optional<CharacterEntity> optChar = characterRepository.findById(id);
         CharacterEntity character = optChar.get();
 
-        CharacterDTO charDTO = characterMapper.characterEntity2DTO(character);
+        CharacterDTO charDTO = characterMapper.characterEntity2DTO(character, true);
 
         return charDTO;
     }
@@ -45,7 +45,7 @@ public class CharacterServiceImpl implements CharacterService {
 
         CharacterEntity entityNew = characterMapper.characterDTO2Entity(dto);
         characterRepository.save(entityNew);
-        CharacterDTO charSaved = characterMapper.characterEntity2DTO(entityNew);
+        CharacterDTO charSaved = characterMapper.characterEntity2DTO(entityNew, true);
 
         return charSaved;
     }
@@ -62,7 +62,7 @@ public class CharacterServiceImpl implements CharacterService {
         Optional<CharacterEntity> optCharacter = characterRepository.findById(id);
         CharacterEntity character = optCharacter.get();
         CharacterEntity charUpdated = characterMapper.characterUpdateDTO2EntityUpdated(dto, character);
-        CharacterDTO dtoUpdated = characterMapper.characterEntity2DTO(charUpdated);
+        CharacterDTO dtoUpdated = characterMapper.characterEntity2DTO(charUpdated, true);
         return dtoUpdated;
     }
 
