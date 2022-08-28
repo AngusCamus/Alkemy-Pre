@@ -4,7 +4,7 @@ import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieFilterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.mappers.MovieMapper;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.MovieSpec;
@@ -52,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieDTO> getAllMovies() {
 
         List<MovieEntity> entities = movieRepository.findAll();
-        List<MovieDTO> result = movieMapper.movieEntityList2DTOList(entities);
+        List<MovieDTO> result = movieMapper.movieEntityList2DTOList(entities, true);
         return result;
     }
 

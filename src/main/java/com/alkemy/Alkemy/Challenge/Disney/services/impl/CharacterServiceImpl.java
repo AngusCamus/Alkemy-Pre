@@ -4,7 +4,7 @@ import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
 import com.alkemy.Alkemy.Challenge.Disney.mappers.CharacterMapper;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.CharacterSpec;
@@ -45,7 +45,7 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public List<CharacterDTO> getAllCharacters() {
         List<CharacterEntity> entities = characterRepository.findAll();
-        List<CharacterDTO> result = characterMapper.characterEntityList2DTOList(entities);
+        List<CharacterDTO> result = characterMapper.characterEntityList2DTOList(entities, true);
         return result;
     }
 
@@ -67,21 +67,22 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public CharacterDTO updateCharacter(CharacterUpdateDTO dto, Long id) {
-        Optional<CharacterEntity> optCharacter = characterRepository.findById(id);
-        CharacterEntity character = optCharacter.get();
-        CharacterEntity charUpdated = characterMapper.characterUpdateDTO2EntityUpdated(dto, character);
-        CharacterDTO dtoUpdated = characterMapper.characterEntity2DTO(charUpdated, true);
+        CharacterEntity entity = characterRepository.findById(id).get();
+        CharacterEntity characterUpdate = characterMapper.characterUpdateDTO2EntityUpdated(dto, entity);
+        CharacterEntity characterUpdated = characterRepository.save(characterUpdate);
+        CharacterDTO dtoUpdated = characterMapper.characterEntity2DTO(characterUpdated, true);
         return dtoUpdated;
     }
 
-    @Override
-    public List<CharacterBasicDTO> getByFilters(String name, Integer age, Set<Long> movies) {
+
+    public List<CharacterBasicDTO> getAllCharacters(String name, Integer age, Set<Long> movies) {
         CharacterFilterDTO filterDTO = new CharacterFilterDTO(age, name, movies);
 
-        List<CharacterEntity> entities = characterRepository.findAllBySpec(characterSpec.getByFilters(filterDTO));
+        List<CharacterEntity> entities = characterRepository.findAll(characterSpec.getByFilters(filterDTO));
 
         List<CharacterBasicDTO> characters = characterMapper.characterEntityList2BasicDTOList(entities);
         return characters;
     }
+
 
 }

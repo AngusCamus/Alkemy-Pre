@@ -1,6 +1,6 @@
 package com.alkemy.Alkemy.Challenge.Disney.dto;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.GenreEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;

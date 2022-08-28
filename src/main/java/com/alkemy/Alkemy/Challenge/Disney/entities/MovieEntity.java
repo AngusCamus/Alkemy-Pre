@@ -1,4 +1,4 @@
-package com.alkemy.Alkemy.Challenge.Disney.dto.entities;
+package com.alkemy.Alkemy.Challenge.Disney.entities;
 
 
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql= "UPDATE movies SET deleted = true WHERE id=?")
+@SQLDelete(sql= "UPDATE movies SET deleted = true WHERE movie_id=?")
 @Where(clause= "deleted=false")
 @Table(name="movies")
 public class MovieEntity {
@@ -46,8 +46,6 @@ public class MovieEntity {
     @JoinColumn(name = "genre_id", insertable = false, updatable = false)
     private GenreEntity genre;
 
-    @Column(name="genre_id", nullable = false)
-    private String genreId;
 
 
     public void addCharacter (CharacterEntity entity){

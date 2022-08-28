@@ -2,14 +2,15 @@ package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
 
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class MovieSpec {
 
     public Specification<MovieEntity> getByFilters(MovieFilterDTO filtersDTO){
@@ -25,11 +26,11 @@ public class MovieSpec {
                         )
                 );
 
-            if(StringUtils.hasLength(filtersDTO.getGenre().toString())){
+            if(StringUtils.hasLength(filtersDTO.getGenreId().toString())){
                 predicates.add(
                         criteriaBuilder.like(
                                 root.get("genreId"),
-                                filtersDTO.getGenre().getId().toString()
+                                filtersDTO.getGenreId()
                         )
                 );
             }

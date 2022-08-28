@@ -1,7 +1,6 @@
 package com.alkemy.Alkemy.Challenge.Disney.dto;
 
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +9,10 @@ import lombok.Setter;
 public class MovieFilterDTO {
 
     private String title;
-    private String genre;
+    private String genreId;
     private String order;
 
-    public MovieFilterDTO(String name, String genre, String order) {
+    public MovieFilterDTO(String name, String genreId, String order) {
     }
 
 

@@ -1,4 +1,4 @@
-package com.alkemy.Alkemy.Challenge.Disney.dto.entities;
+package com.alkemy.Alkemy.Challenge.Disney.entities;
 
 
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Setter@Getter
-@SQLDelete(sql= "UPDATE characters SET deleted = true WHERE id=?")
+@SQLDelete(sql= "UPDATE characters SET deleted = true WHERE char_id=?")
 @Where(clause= "deleted=false")
 @Table(name="characters")
 public class CharacterEntity {

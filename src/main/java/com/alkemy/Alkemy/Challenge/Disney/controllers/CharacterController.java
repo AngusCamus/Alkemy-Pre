@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("characters")
+@RequestMapping("/characters")
 public class CharacterController {
 
     @Autowired
@@ -28,15 +28,16 @@ public class CharacterController {
     }
     //Retrieve all
     @GetMapping
-    public ResponseEntity<List<CharacterBasicDTO>> findListCharacters(
+    public ResponseEntity<List<CharacterBasicDTO>> filterCharacters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,
             @RequestParam(required = false) Set<Long> movies
     ){
-        List<CharacterBasicDTO> characters = characterService.getByFilters(name, age, movies);
+        List<CharacterBasicDTO> characters = characterService.getAllCharacters(name, age, movies);
 
         return ResponseEntity.status(HttpStatus.OK).body(characters);
     }
+
 
     //create
     @PostMapping

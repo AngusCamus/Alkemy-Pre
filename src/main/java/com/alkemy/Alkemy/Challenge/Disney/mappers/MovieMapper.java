@@ -4,8 +4,8 @@ import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,8 +18,6 @@ import java.util.Set;
 @Component
 public class MovieMapper {
 
-    @Autowired
-    MovieRepository movieRepository;
     @Autowired
     CharacterMapper characterMapper;
 
@@ -53,19 +51,11 @@ public class MovieMapper {
         return entity;
     }
     //EList2DTOList
-    public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entities){
+    public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entities, boolean loadCharacters){
         List<MovieDTO> dtos = new ArrayList<>();
 
         for(MovieEntity entity : entities) {
-            MovieDTO movieDTO = new MovieDTO();
-            movieDTO.setGenre(entity.getGenre());
-            movieDTO.setCreationDate(entity.getCreationDate());
-            movieDTO.setImage(entity.getImage());
-            movieDTO.setId(entity.getId());
-            movieDTO.setRating(entity.getRating());
-            movieDTO.setTitle(entity.getTitle());
-            movieDTO.setCharacters(entity.getCharacters());
-            dtos.add(movieDTO);
+            dtos.add(movieEntity2DTO(entity, loadCharacters));
         }
         return dtos;
     }
@@ -74,15 +64,7 @@ public class MovieMapper {
 
         List<MovieEntity> entities = new ArrayList<>();
         for (MovieDTO dto : dtos) {
-            MovieEntity entity = new MovieEntity();
-            entity.setCharacters(dto.getCharacters());
-            entity.setGenre(dto.getGenre());
-            entity.setCreationDate(dto.getCreationDate());
-            entity.setImage(dto.getImage());
-            entity.setRating(dto.getRating());
-            entity.setId(dto.getId());
-            entity.setTitle(dto.getTitle());
-            entities.add(entity);
+            entities.add(movieDTO2Entity(dto));
         }
         return entities;
     }
@@ -92,19 +74,7 @@ public class MovieMapper {
 
         for (MovieEntity entity : entities) {
 
-            MovieDTO movieDTO = new MovieDTO();
-            movieDTO.setGenre(entity.getGenre());
-            movieDTO.setCreationDate(entity.getCreationDate());
-            movieDTO.setImage(entity.getImage());
-            movieDTO.setId(entity.getId());
-            movieDTO.setRating(entity.getRating());
-            movieDTO.setTitle(entity.getTitle());
-            if (loadCharacters) {
-                Set<CharacterDTO> charDTOs = characterMapper.characterEntitySet2DTOSet(entity.getCharacters(), false);
-                Set<CharacterEntity> characters = characterMapper.characterDTOSet2EntitySet(charDTOs);
-                movieDTO.setCharacters(characters);
-            }
-            dtos.add(movieDTO);
+            dtos.add(movieEntity2DTO(entity, loadCharacters));
         }
         return dtos;
     }
@@ -113,16 +83,7 @@ public class MovieMapper {
         Set<MovieEntity> entities = new HashSet<>();
 
         for (MovieDTO dto : dtos) {
-
-            MovieEntity entity = new MovieEntity();
-            entity.setCharacters(dto.getCharacters());
-            entity.setGenre(dto.getGenre());
-            entity.setCreationDate(dto.getCreationDate());
-            entity.setImage(dto.getImage());
-            entity.setRating(dto.getRating());
-            entity.setId(dto.getId());
-            entity.setTitle(dto.getTitle());
-            entities.add(entity);
+            entities.add(movieDTO2Entity(dto));
         }
         return entities;
     }

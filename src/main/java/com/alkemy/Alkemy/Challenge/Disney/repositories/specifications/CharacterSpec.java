@@ -1,9 +1,10 @@
 package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.dto.entities.MovieEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -13,7 +14,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class CharacterSpec {
 
     public Specification<CharacterEntity> getByFilters(CharacterFilterDTO filtersDTO){
@@ -29,15 +30,15 @@ public class CharacterSpec {
                 );
 
             };
-            if (StringUtils.hasLength(filtersDTO.getAge().toString())){
+            if (filtersDTO.getAge() != null){
                 predicates.add(
                         criteriaBuilder.equal(
                                 root.get("age"),
-                                filtersDTO.getAge()
+                                filtersDTO.getAge().toString()
                         )
                 );
             };
-            if (CollectionUtils.isEmpty(filtersDTO.getMovies())){
+            if (!CollectionUtils.isEmpty(filtersDTO.getMovies())){
                 Join<CharacterEntity, MovieEntity> join = root.join("movies", JoinType.INNER);
                 Expression<String> moviesId = join.get("id");
                 predicates.add(moviesId.in(filtersDTO.getMovies()));
@@ -49,6 +50,8 @@ public class CharacterSpec {
             query.orderBy(criteriaBuilder.asc(root.get(orderByField)));
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+
+
         };
     }
 }
