@@ -18,15 +18,15 @@ public class MovieSpec {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if(StringUtils.hasLength(filtersDTO.getTitle())){}
+            if(StringUtils.hasLength(filtersDTO.getTitle())) {
                 predicates.add(
                         criteriaBuilder.like(
                                 root.get("title"),
                                 filtersDTO.getTitle()
                         )
                 );
-
-            if(StringUtils.hasLength(filtersDTO.getGenreId().toString())){
+            }
+            if(StringUtils.hasLength(filtersDTO.getGenreId())){
                 predicates.add(
                         criteriaBuilder.like(
                                 root.get("genreId"),
@@ -40,9 +40,9 @@ public class MovieSpec {
             String orderByField = "title";
 
             query.orderBy(
-                    filtersDTO.isASC() ?
-                            criteriaBuilder.asc(root.get(orderByField)) :
-                            criteriaBuilder.desc(root.get(orderByField))
+                    filtersDTO.isDESC() ?
+                            criteriaBuilder.desc(root.get(orderByField)) :
+                            criteriaBuilder.asc(root.get(orderByField))
             );
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

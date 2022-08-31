@@ -1,9 +1,9 @@
 package com.alkemy.Alkemy.Challenge.Disney.dto;
 
 import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -18,7 +18,8 @@ public class MovieDTO {
     private String image;
     @DateTimeFormat
     private LocalDate creationDate;
+    @Range(min=1,max=5)
     private Integer rating;
     private Set<CharacterEntity> characters = new HashSet<>();
-    private GenreEntity genre;
+    private Long genreId;
 }

@@ -1,12 +1,11 @@
 package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,7 @@ public class MovieMapper {
     //E2DTO
     public MovieDTO movieEntity2DTO (MovieEntity entity, boolean loadCharacters){
         MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setGenre(entity.getGenre());
+        movieDTO.setGenreId(entity.getGenre().getId());
         movieDTO.setCreationDate(entity.getCreationDate());
         movieDTO.setImage(entity.getImage());
         movieDTO.setId(entity.getId());
@@ -41,7 +40,7 @@ public class MovieMapper {
     public MovieEntity movieDTO2Entity (MovieDTO dto){
         MovieEntity entity = new MovieEntity();
         entity.setCharacters(dto.getCharacters());
-        entity.setGenre(dto.getGenre());
+        entity.setGenreId(dto.getGenreId());
         entity.setCreationDate(dto.getCreationDate());
         entity.setImage(dto.getImage());
         entity.setRating(dto.getRating());

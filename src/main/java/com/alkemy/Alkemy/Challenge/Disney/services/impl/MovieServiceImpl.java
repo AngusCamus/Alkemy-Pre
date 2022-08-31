@@ -1,13 +1,13 @@
 package com.alkemy.Alkemy.Challenge.Disney.services.impl;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieFilterDTO;
+import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.MovieSpec;
+import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
 import com.alkemy.Alkemy.Challenge.Disney.mappers.MovieMapper;
 import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.MovieSpec;
 import com.alkemy.Alkemy.Challenge.Disney.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieBasicDTO> getByFilter(String name, String genre, String order) {
+    public List<MovieBasicDTO> getAllMovies(String name, String genre, String order) {
         MovieFilterDTO filterDTO = new MovieFilterDTO(name, genre, order);
         List<MovieEntity> moviesEntity = movieRepository.findAll(movieSpec.getByFilters(filterDTO));
         List<MovieBasicDTO> movies = movieMapper.movieEntityList2BasicDTOList(moviesEntity);

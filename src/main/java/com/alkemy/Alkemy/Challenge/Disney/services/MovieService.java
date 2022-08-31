@@ -20,5 +20,5 @@ public interface MovieService  {
     //update
     MovieDTO updateMovie(MovieUpdateDTO dto, Long id );
 
-    List<MovieBasicDTO> getByFilter(String name, String genre, String order);
+    List<MovieBasicDTO> getAllMovies(String name, String genre, String order);
 }

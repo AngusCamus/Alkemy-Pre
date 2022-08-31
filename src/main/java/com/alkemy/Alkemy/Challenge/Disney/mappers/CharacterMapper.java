@@ -1,12 +1,11 @@
 package com.alkemy.Alkemy.Challenge.Disney.mappers;
 
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
+import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
 import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

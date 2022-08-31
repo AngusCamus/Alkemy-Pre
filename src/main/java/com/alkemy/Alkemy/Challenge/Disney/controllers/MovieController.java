@@ -3,8 +3,7 @@ package com.alkemy.Alkemy.Challenge.Disney.controllers;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
 import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.services.MovieService;
-import org.apache.coyote.Response;
+import com.alkemy.Alkemy.Challenge.Disney.services.impl.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import java.util.List;
 public class MovieController {
 
     @Autowired
-    MovieService movieService;
+    MovieServiceImpl movieService;
 
     //Retrieve One
     @GetMapping("/{id}")
@@ -35,7 +34,7 @@ public class MovieController {
             @RequestParam(required = false) String order
         ){
 
-        List<MovieBasicDTO> moviesDTO = movieService.getByFilter(name,genre,order);
+        List<MovieBasicDTO> moviesDTO = movieService.getAllMovies(name,genre,order);
 
         return ResponseEntity.status(HttpStatus.OK).body(moviesDTO);
     }

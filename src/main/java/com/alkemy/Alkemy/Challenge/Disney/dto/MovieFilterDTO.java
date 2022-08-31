@@ -10,15 +10,14 @@ public class MovieFilterDTO {
 
     private String title;
     private String genreId;
-    private String order;
+
+    private String order = "ASC";
 
     public MovieFilterDTO(String name, String genreId, String order) {
     }
 
 
-    public boolean isASC(){
-        return order.compareToIgnoreCase("ASC") == 0;
-    }
+
     public boolean isDESC(){
         return order.compareToIgnoreCase("DESC") == 0;
     }
