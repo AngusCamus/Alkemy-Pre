@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Setter@Getter
+@Setter @Getter
 @SQLDelete(sql= "UPDATE characters SET deleted = true WHERE char_id=?")
 @Where(clause= "deleted=false")
 @Table(name="characters")

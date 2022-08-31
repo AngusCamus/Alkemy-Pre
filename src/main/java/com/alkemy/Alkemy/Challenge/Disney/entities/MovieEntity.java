@@ -34,7 +34,7 @@ public class MovieEntity {
     private boolean deleted = Boolean.FALSE;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(name= "movies_chars",
             joinColumns = @JoinColumn(name="movie_id"),
             inverseJoinColumns = @JoinColumn(name = "char_id")
@@ -42,10 +42,12 @@ public class MovieEntity {
     private Set<CharacterEntity> characters = new HashSet<>();
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "genre_id", insertable = false, updatable = false)
     private GenreEntity genre;
 
+    @Column(name = "genre_id")
+    private Long genreId;
 
 
     public void addCharacter (CharacterEntity entity){
