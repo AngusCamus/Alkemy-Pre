@@ -106,4 +106,23 @@ public class MovieServiceImpl implements MovieService {
         MovieDTO movie = movieMapper.movieEntity2DTO(entity, true);
         return movie;
     }
+
+    @Override
+    public MovieDTO removeCharacter2Movie(Long id, Long idCharacter) {
+
+        Optional<MovieEntity> optMovie = movieRepository.findById(id);
+        if(!optMovie.isPresent()) {
+            throw new ParamNotFound("Id movie not found");
+        }
+        MovieEntity entity = optMovie.get();
+
+        Optional<CharacterEntity> optCharacter = characterRepository.findById(idCharacter);
+        if(!optCharacter.isPresent()) {
+            throw new ParamNotFound("Id character not found");
+        }
+        CharacterEntity character = optCharacter.get();
+        entity.delCharacter(character);
+        MovieDTO movie = movieMapper.movieEntity2DTO(entity, true);
+        return movie;
+    }
 }

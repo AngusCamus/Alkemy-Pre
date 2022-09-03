@@ -68,6 +68,11 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieUpdated);
     }
     //Remove Character
+    @DeleteMapping("/{id}/characters/{idCharacter}")
+    public ResponseEntity<MovieDTO> removeCharacter(@PathVariable Long id, @PathVariable Long idCharacter){
 
+        MovieDTO movieUpdated = movieService.removeCharacter2Movie(id, idCharacter);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieUpdated);
+    }
 
 }
