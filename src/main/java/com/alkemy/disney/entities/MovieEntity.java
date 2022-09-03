@@ -1,6 +1,7 @@
 package com.alkemy.disney.entities;
 
 
+import com.alkemy.disney.dto.CharacterCreateDTO;
 import com.alkemy.disney.exception.MovieContainsCharacter;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,7 @@ public class MovieEntity {
     private Set<CharacterEntity> characters = new HashSet<>();
 
 
+
     @ManyToOne
     @JoinColumn(name = "genre_id", insertable = false, updatable = false)
     private GenreEntity genre;
@@ -65,5 +67,9 @@ public class MovieEntity {
     public void delCharacter (Long idCharacter) {
         if(characters.removeIf(e -> e.getId() == idCharacter)){}
         else{ throw new MovieContainsCharacter("Character not found on this movie");}
+    }
+
+    public void addCharacters(Set<CharacterEntity> charactersSet) {
+        characters.addAll(charactersSet);
     }
 }

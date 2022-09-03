@@ -2,6 +2,7 @@ package com.alkemy.disney.services;
 
 
 import com.alkemy.disney.dto.CharacterBasicDTO;
+import com.alkemy.disney.dto.CharacterCreateDTO;
 import com.alkemy.disney.dto.CharacterDTO;
 import com.alkemy.disney.dto.CharacterUpdateDTO;
 
@@ -15,7 +16,7 @@ public interface CharacterService {
     //obtener lista
     List<CharacterDTO> getAllCharacters();
     //crear
-    CharacterDTO createCharacter(CharacterDTO dto);
+    CharacterDTO createCharacter(CharacterCreateDTO dto);
     //eliminar
     void deleteCharacterById(Long id);
     //update

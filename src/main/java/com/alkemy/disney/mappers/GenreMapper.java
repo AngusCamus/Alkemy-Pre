@@ -1,5 +1,6 @@
 package com.alkemy.disney.mappers;
 
+import com.alkemy.disney.dto.GenreCreateDTO;
 import com.alkemy.disney.dto.GenreDTO;
 import com.alkemy.disney.entities.GenreEntity;
 import org.springframework.stereotype.Component;
@@ -29,4 +30,12 @@ public class GenreMapper {
         return entity;
     }
 
+    public GenreEntity genreCreateDTO2Entity(GenreCreateDTO dto) {
+        GenreEntity entity = new GenreEntity();
+
+        entity.setImage(dto.getImage());
+        entity.setName(dto.getName());
+
+        return entity;
+    }
 }

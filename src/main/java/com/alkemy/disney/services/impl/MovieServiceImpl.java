@@ -2,7 +2,12 @@ package com.alkemy.disney.services.impl;
 
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.entities.GenreEntity;
 import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.mappers.CharacterMapper;
+import com.alkemy.disney.mappers.GenreMapper;
+import com.alkemy.disney.repositories.CharacterRepository;
+import com.alkemy.disney.repositories.GenreRepository;
 import com.alkemy.disney.repositories.specifications.MovieSpec;
 import com.alkemy.disney.entities.MovieEntity;
 import com.alkemy.disney.mappers.MovieMapper;
@@ -18,23 +23,36 @@ import java.util.Set;
 @Service
 public class MovieServiceImpl implements MovieService {
 
+    //Movie
     MovieRepository movieRepository;
     MovieMapper movieMapper;
     MovieSpec movieSpec;
 
+    //Character
     CharacterServiceImpl characterService;
-
+    CharacterRepository characterRepository;
+    CharacterMapper characterMapper;
+    //Genre
+    GenreMapper genreMapper;
+    GenreRepository genreRepository;
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, MovieMapper movieMapper, MovieSpec movieSpec, CharacterServiceImpl characterService) {
+    public MovieServiceImpl(MovieRepository movieRepository, MovieMapper movieMapper, MovieSpec movieSpec, CharacterServiceImpl characterService, CharacterRepository characterRepository, CharacterMapper characterMapper, GenreMapper genreMapper, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
         this.movieMapper = movieMapper;
         this.movieSpec = movieSpec;
         this.characterService = characterService;
+        this.characterRepository = characterRepository;
+        this.characterMapper = characterMapper;
+        this.genreMapper = genreMapper;
+        this.genreRepository = genreRepository;
     }
 
+
+
     @Override
-    public MovieDTO createMovie(MovieDTO dto) {
-        MovieEntity entity = movieMapper.movieDTO2Entity(dto);
+    public MovieDTO createMovie(MovieCreateDTO dto) {
+
+        MovieEntity entity = movieMapper.movieCreateDTO2Entity(dto);
         MovieEntity entitySaved = movieRepository.save(entity);
         MovieDTO movieSaved = movieMapper.movieEntity2DTO(entitySaved, true);
 

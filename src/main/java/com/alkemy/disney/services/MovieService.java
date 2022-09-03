@@ -2,6 +2,7 @@ package com.alkemy.disney.services;
 
 
 import com.alkemy.disney.dto.MovieBasicDTO;
+import com.alkemy.disney.dto.MovieCreateDTO;
 import com.alkemy.disney.dto.MovieDTO;
 import com.alkemy.disney.dto.MovieUpdateDTO;
 import com.alkemy.disney.entities.CharacterEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface MovieService  {
 
     //create
-    MovieDTO createMovie (MovieDTO dto);
+    MovieDTO createMovie (MovieCreateDTO dto);
     //retrieve one
     MovieDTO getById(Long id);
     //retrieve all

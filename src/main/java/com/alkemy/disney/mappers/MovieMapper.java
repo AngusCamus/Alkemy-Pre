@@ -1,11 +1,11 @@
 package com.alkemy.disney.mappers;
 
-import com.alkemy.disney.dto.MovieBasicDTO;
-import com.alkemy.disney.dto.MovieDTO;
-import com.alkemy.disney.dto.MovieUpdateDTO;
+import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
-import com.alkemy.disney.dto.CharacterDTO;
+import com.alkemy.disney.entities.GenreEntity;
 import com.alkemy.disney.entities.MovieEntity;
+import com.alkemy.disney.repositories.CharacterRepository;
+import com.alkemy.disney.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +19,12 @@ public class MovieMapper {
 
     @Autowired
     CharacterMapper characterMapper;
+    @Autowired
+    CharacterRepository characterRepository;
+    @Autowired
+    GenreMapper genreMapper;
+    @Autowired
+    GenreRepository genreRepository;
 
     //E2DTO
     public MovieDTO movieEntity2DTO (MovieEntity entity, boolean loadCharacters){
@@ -124,5 +130,26 @@ public class MovieMapper {
         }
         return dtos;
 
+    }
+
+    public MovieEntity movieCreateDTO2Entity(MovieCreateDTO dto) {
+        MovieEntity entity = new MovieEntity();
+        entity.setImage(dto.getImage());
+        entity.setTitle(dto.getTitle());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setRating(dto.getRating());
+        //Create Characters and save at DB.
+        List<CharacterEntity> charactersList = this.characterMapper.characterCreateDTOSet2EntityList(dto.getCharacters());
+        characterRepository.saveAll(charactersList);
+        //Set Characters to entity.
+        Set<CharacterEntity> characterSet = this.characterMapper.characterEntityList2Set(charactersList);
+        entity.addCharacters(characterSet);
+        //Save Genre at DB.
+        GenreEntity genre = genreRepository.save(genreMapper.genreCreateDTO2Entity(dto.getGenre()));
+        //Set genre at Entity
+        entity.setGenre(genre);
+        entity.setGenreId(genre.getId());
+
+        return entity;
     }
 }

@@ -1,6 +1,7 @@
 package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.MovieBasicDTO;
+import com.alkemy.disney.dto.MovieCreateDTO;
 import com.alkemy.disney.dto.MovieDTO;
 import com.alkemy.disney.dto.MovieUpdateDTO;
 import com.alkemy.disney.services.impl.MovieServiceImpl;
@@ -40,7 +41,7 @@ public class MovieController {
     }
     //Create
     @PostMapping
-    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO dto){
+    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieCreateDTO dto){
 
         MovieDTO movie = movieService.createMovie(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);

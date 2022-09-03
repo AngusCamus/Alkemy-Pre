@@ -1,12 +1,9 @@
 package com.alkemy.disney.services.impl;
 
-import com.alkemy.disney.dto.CharacterBasicDTO;
-import com.alkemy.disney.dto.CharacterFilterDTO;
+import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
 import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.repositories.specifications.CharacterSpec;
-import com.alkemy.disney.dto.CharacterDTO;
-import com.alkemy.disney.dto.CharacterUpdateDTO;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
 import com.alkemy.disney.services.CharacterService;
@@ -53,9 +50,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public CharacterDTO createCharacter(CharacterDTO dto) {
+    public CharacterDTO createCharacter(CharacterCreateDTO dto) {
 
-        CharacterEntity entityNew = characterMapper.characterDTO2Entity(dto);
+        CharacterEntity entityNew = characterMapper.characterCreateDTO2Entity(dto);
         characterRepository.save(entityNew);
         CharacterDTO charSaved = characterMapper.characterEntity2DTO(entityNew, true);
 
