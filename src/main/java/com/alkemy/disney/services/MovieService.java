@@ -21,4 +21,6 @@ public interface MovieService  {
     MovieDTO updateMovie(MovieUpdateDTO dto, Long id );
 
     List<MovieBasicDTO> getAllMovies(String name, String genre, String order);
+
+    MovieDTO addCharacter2Movie(Long id, Long idCharacter);
 }

@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface MovieRepository extends JpaRepository<MovieEntity, Long>, JpaSpecificationExecutor<MovieEntity> {
 
 
-
 }

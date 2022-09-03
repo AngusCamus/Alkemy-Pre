@@ -3,6 +3,7 @@ package com.alkemy.disney.services.impl;
 import com.alkemy.disney.dto.CharacterBasicDTO;
 import com.alkemy.disney.dto.CharacterFilterDTO;
 import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.repositories.specifications.CharacterSpec;
 import com.alkemy.disney.dto.CharacterDTO;
 import com.alkemy.disney.dto.CharacterUpdateDTO;
@@ -35,8 +36,10 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterDTO getById(Long id) {
 
         Optional<CharacterEntity> optChar = characterRepository.findById(id);
+        if(!optChar.isPresent()) {
+            throw new ParamNotFound("Id character not found");
+        }
         CharacterEntity character = optChar.get();
-
         CharacterDTO charDTO = characterMapper.characterEntity2DTO(character, true);
 
         return charDTO;

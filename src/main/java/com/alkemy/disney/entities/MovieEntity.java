@@ -1,6 +1,7 @@
 package com.alkemy.disney.entities;
 
 
+import com.alkemy.disney.exception.MovieContainsCharacter;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -52,8 +53,13 @@ public class MovieEntity {
     private Long genreId;
 
 
-    public void addCharacter (CharacterEntity entity){
-        characters.add(entity);
+    public void addCharacter (CharacterEntity entity) {
+        if (characters.contains(entity)) {
+            throw new MovieContainsCharacter("The movie contain this character");
+        } else {
+            characters.add(entity);
+        }
+
     }
 
     public void delCharacter (CharacterEntity entity){
