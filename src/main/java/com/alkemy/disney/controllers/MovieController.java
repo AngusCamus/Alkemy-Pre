@@ -22,7 +22,7 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<MovieDTO> findById(@PathVariable Long id){
 
-        MovieDTO movie = movieService.getOneById(id);
+        MovieDTO movie = movieService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(movie);
     }
 
@@ -61,17 +61,17 @@ public class MovieController {
     }
 
     //Add Character
-    @PostMapping("/{id}/characters/{idCharacter}")
-    public ResponseEntity<MovieDTO> addCharacter(@PathVariable Long id, @PathVariable Long idCharacter){
+    @PostMapping("/{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<MovieDTO> addCharacter(@PathVariable Long idMovie, @PathVariable Long idCharacter){
 
-        MovieDTO movieUpdated = movieService.addCharacter2Movie(id, idCharacter);
+        MovieDTO movieUpdated = movieService.addCharacter2Movie(idMovie, idCharacter);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieUpdated);
     }
     //Remove Character
-    @DeleteMapping("/{id}/characters/{idCharacter}")
-    public ResponseEntity<MovieDTO> removeCharacter(@PathVariable Long id, @PathVariable Long idCharacter){
+    @DeleteMapping("/{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<MovieDTO> removeCharacter(@PathVariable Long idMovie, @PathVariable Long idCharacter){
 
-        MovieDTO movieUpdated = movieService.removeCharacter2Movie(id, idCharacter);
+        MovieDTO movieUpdated = movieService.removeCharacter2Movie(idMovie, idCharacter);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieUpdated);
     }
 
