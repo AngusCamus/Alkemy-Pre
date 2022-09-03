@@ -1,6 +1,10 @@
 package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.CharacterBasicDTO;
+<<<<<<< HEAD
+=======
+import com.alkemy.disney.dto.CharacterCreateDTO;
+>>>>>>> test
 import com.alkemy.disney.dto.CharacterDTO;
 import com.alkemy.disney.dto.CharacterUpdateDTO;
 import com.alkemy.disney.services.impl.CharacterServiceImpl;
@@ -28,7 +32,7 @@ public class CharacterController {
     }
     //Retrieve all
     @GetMapping
-    public ResponseEntity<List<CharacterBasicDTO>> filterCharacters(
+    public ResponseEntity<List<CharacterBasicDTO>> findAll(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,
             @RequestParam(required = false) Set<Long> movies
@@ -41,7 +45,7 @@ public class CharacterController {
 
     //create
     @PostMapping
-    public ResponseEntity<CharacterDTO> createCharacter(@RequestBody CharacterDTO dto){
+    public ResponseEntity<CharacterDTO> createCharacter(@RequestBody CharacterCreateDTO dto){
 
         CharacterDTO dtoCreated = characterService.createCharacter(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoCreated);

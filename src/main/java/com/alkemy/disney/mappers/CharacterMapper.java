@@ -1,12 +1,8 @@
-package com.alkemy.Alkemy.Challenge.Disney.mappers;
+package com.alkemy.disney.mappers;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
+import com.alkemy.disney.dto.*;
+import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.entities.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -124,5 +120,42 @@ public class CharacterMapper {
         charDTO.setName(entity.getName());
 
         return charDTO;
+    }
+
+    public CharacterEntity characterCreateDTO2Entity(CharacterCreateDTO dto) {
+        CharacterEntity entityNew = new CharacterEntity();
+        entityNew.setImage(dto.getImage());
+        entityNew.setName(dto.getName());
+        entityNew.setWeight(dto.getWeight());
+        entityNew.setHistory(dto.getHistory());
+        entityNew.setAge(dto.getAge());
+
+        return entityNew;
+    }
+
+    public List<CharacterEntity> characterCreateDTOSet2EntityList(Set<CharacterCreateDTO> dtos) {
+        List<CharacterEntity> result = new ArrayList<>();
+        for (CharacterCreateDTO dto : dtos){
+            result.add(characterCreateDTO2Entity(dto));
+        }
+        return result;
+    }
+
+    public Set<CharacterEntity> characterEntityList2Set(List<CharacterEntity> charactersList) {
+
+        Set<CharacterEntity> result = new HashSet<>();
+        for (CharacterEntity entity : charactersList){
+            result.add(entity);
+        }
+        return result;
+    }
+
+    public Set<CharacterEntity> characterCreateDTOSet2EntitySet(Set<CharacterCreateDTO> dtos) {
+        Set<CharacterEntity> result = new HashSet<>();
+        for (CharacterCreateDTO dto : dtos){
+            result.add(characterCreateDTO2Entity(dto));
+        }
+        return result;
+
     }
 }

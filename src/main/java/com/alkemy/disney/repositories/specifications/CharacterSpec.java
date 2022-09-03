@@ -1,8 +1,8 @@
-package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
+package com.alkemy.disney.repositories.specifications;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.disney.dto.CharacterFilterDTO;
+import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

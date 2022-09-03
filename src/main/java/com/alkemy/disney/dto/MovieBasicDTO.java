@@ -1,4 +1,4 @@
-package com.alkemy.Alkemy.Challenge.Disney.dto;
+package com.alkemy.disney.dto;
 
 
 import lombok.Getter;

@@ -1,9 +1,10 @@
-package com.alkemy.Alkemy.Challenge.Disney.services;
+package com.alkemy.disney.services;
 
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
+import com.alkemy.disney.dto.CharacterBasicDTO;
+import com.alkemy.disney.dto.CharacterCreateDTO;
+import com.alkemy.disney.dto.CharacterDTO;
+import com.alkemy.disney.dto.CharacterUpdateDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -15,7 +16,7 @@ public interface CharacterService {
     //obtener lista
     List<CharacterDTO> getAllCharacters();
     //crear
-    CharacterDTO createCharacter(CharacterDTO dto);
+    CharacterDTO createCharacter(CharacterCreateDTO dto);
     //eliminar
     void deleteCharacterById(Long id);
     //update

@@ -1,8 +1,8 @@
-package com.alkemy.Alkemy.Challenge.Disney.repositories.specifications;
+package com.alkemy.disney.repositories.specifications;
 
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.disney.dto.MovieFilterDTO;
+import com.alkemy.disney.entities.MovieEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,19 +18,19 @@ public class MovieSpec {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if(StringUtils.hasLength(filtersDTO.getTitle())){}
+            if(StringUtils.hasLength(filtersDTO.getTitle())) {
                 predicates.add(
                         criteriaBuilder.like(
-                                root.get("title"),
-                                filtersDTO.getTitle()
-                        )
-                );
+                                criteriaBuilder.lower(root.get("title")),
+                                "%" + filtersDTO.getTitle().toLowerCase() + "%")
 
-            if(StringUtils.hasLength(filtersDTO.getGenreId().toString())){
+                );
+            }
+            if(filtersDTO.getGenreId() != null){
                 predicates.add(
-                        criteriaBuilder.like(
+                        criteriaBuilder.equal(
                                 root.get("genreId"),
-                                filtersDTO.getGenreId()
+                                filtersDTO.getGenreId().toString()
                         )
                 );
             }
@@ -40,9 +40,9 @@ public class MovieSpec {
             String orderByField = "title";
 
             query.orderBy(
-                    filtersDTO.isASC() ?
-                            criteriaBuilder.asc(root.get(orderByField)) :
-                            criteriaBuilder.desc(root.get(orderByField))
+                    filtersDTO.isDESC() ?
+                            criteriaBuilder.desc(root.get(orderByField)) :
+                            criteriaBuilder.asc(root.get(orderByField))
             );
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

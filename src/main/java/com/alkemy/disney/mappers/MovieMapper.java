@@ -1,12 +1,11 @@
-package com.alkemy.Alkemy.Challenge.Disney.mappers;
+package com.alkemy.disney.mappers;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.MovieUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.MovieRepository;
+import com.alkemy.disney.dto.*;
+import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.entities.GenreEntity;
+import com.alkemy.disney.entities.MovieEntity;
+import com.alkemy.disney.repositories.CharacterRepository;
+import com.alkemy.disney.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +19,17 @@ public class MovieMapper {
 
     @Autowired
     CharacterMapper characterMapper;
+    @Autowired
+    CharacterRepository characterRepository;
+    @Autowired
+    GenreMapper genreMapper;
+    @Autowired
+    GenreRepository genreRepository;
 
     //E2DTO
     public MovieDTO movieEntity2DTO (MovieEntity entity, boolean loadCharacters){
         MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setGenre(entity.getGenre());
+        movieDTO.setGenreId(entity.getGenre().getId());
         movieDTO.setCreationDate(entity.getCreationDate());
         movieDTO.setImage(entity.getImage());
         movieDTO.setId(entity.getId());
@@ -41,7 +46,7 @@ public class MovieMapper {
     public MovieEntity movieDTO2Entity (MovieDTO dto){
         MovieEntity entity = new MovieEntity();
         entity.setCharacters(dto.getCharacters());
-        entity.setGenre(dto.getGenre());
+        entity.setGenreId(dto.getGenreId());
         entity.setCreationDate(dto.getCreationDate());
         entity.setImage(dto.getImage());
         entity.setRating(dto.getRating());
@@ -91,20 +96,20 @@ public class MovieMapper {
     public MovieEntity movieUpdateDTO2Entity(MovieUpdateDTO dto, MovieEntity entity){
 
         MovieEntity entityUpdated = new MovieEntity();
-        entityUpdated.setGenre(dto.getGenre());
+        entityUpdated.setGenre(entity.getGenre());
         entityUpdated.setCreationDate(dto.getCreationDate());
         entityUpdated.setImage(dto.getImage());
         entityUpdated.setRating(dto.getRating());
         entityUpdated.setTitle(dto.getTitle());
         entityUpdated.setId(entity.getId());
         entityUpdated.setCharacters(entity.getCharacters());
+        entityUpdated.setGenreId(entity.getGenreId());
 
         return entityUpdated;
     }
     //E2UpdateDTO
     public MovieUpdateDTO movieEntity2UpdateDTO(MovieEntity entity){
         MovieUpdateDTO movieDTO = new MovieUpdateDTO();
-        movieDTO.setGenre(entity.getGenre());
         movieDTO.setCreationDate(entity.getCreationDate());
         movieDTO.setImage(entity.getImage());
         movieDTO.setRating(entity.getRating());
@@ -121,9 +126,31 @@ public class MovieMapper {
             MovieBasicDTO movieDTO = new MovieBasicDTO();
             movieDTO.setImage(entity.getImage());
             movieDTO.setTitle(entity.getTitle());
+            movieDTO.setCreateDate(entity.getCreationDate());
             dtos.add(movieDTO);
         }
         return dtos;
 
+    }
+
+    public MovieEntity movieCreateDTO2Entity(MovieCreateDTO dto) {
+        MovieEntity entity = new MovieEntity();
+        entity.setImage(dto.getImage());
+        entity.setTitle(dto.getTitle());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setRating(dto.getRating());
+        //Create Characters and save at DB.
+        List<CharacterEntity> charactersList = this.characterMapper.characterCreateDTOSet2EntityList(dto.getCharacters());
+        characterRepository.saveAll(charactersList);
+        //Set Characters to entity.
+        Set<CharacterEntity> characterSet = this.characterMapper.characterEntityList2Set(charactersList);
+        entity.addCharacters(characterSet);
+        //Save Genre at DB.
+        GenreEntity genre = genreRepository.save(genreMapper.genreCreateDTO2Entity(dto.getGenre()));
+        //Set genre at Entity
+        entity.setGenre(genre);
+        entity.setGenreId(genre.getId());
+
+        return entity;
     }
 }

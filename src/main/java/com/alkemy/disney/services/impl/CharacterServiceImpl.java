@@ -1,14 +1,12 @@
-package com.alkemy.Alkemy.Challenge.Disney.services.impl;
+package com.alkemy.disney.services.impl;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterBasicDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterFilterDTO;
-import com.alkemy.Alkemy.Challenge.Disney.dto.CharacterUpdateDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.CharacterEntity;
-import com.alkemy.Alkemy.Challenge.Disney.mappers.CharacterMapper;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.CharacterRepository;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.specifications.CharacterSpec;
-import com.alkemy.Alkemy.Challenge.Disney.services.CharacterService;
+import com.alkemy.disney.dto.*;
+import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.repositories.specifications.CharacterSpec;
+import com.alkemy.disney.mappers.CharacterMapper;
+import com.alkemy.disney.repositories.CharacterRepository;
+import com.alkemy.disney.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +33,10 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterDTO getById(Long id) {
 
         Optional<CharacterEntity> optChar = characterRepository.findById(id);
+        if(!optChar.isPresent()) {
+            throw new ParamNotFound("Id character not found");
+        }
         CharacterEntity character = optChar.get();
-
         CharacterDTO charDTO = characterMapper.characterEntity2DTO(character, true);
 
         return charDTO;
@@ -50,9 +50,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public CharacterDTO createCharacter(CharacterDTO dto) {
+    public CharacterDTO createCharacter(CharacterCreateDTO dto) {
 
-        CharacterEntity entityNew = characterMapper.characterDTO2Entity(dto);
+        CharacterEntity entityNew = characterMapper.characterCreateDTO2Entity(dto);
         characterRepository.save(entityNew);
         CharacterDTO charSaved = characterMapper.characterEntity2DTO(entityNew, true);
 

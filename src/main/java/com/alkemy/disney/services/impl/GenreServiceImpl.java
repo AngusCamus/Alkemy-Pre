@@ -1,10 +1,10 @@
-package com.alkemy.Alkemy.Challenge.Disney.services.impl;
+package com.alkemy.disney.services.impl;
 
-import com.alkemy.Alkemy.Challenge.Disney.dto.GenreDTO;
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
-import com.alkemy.Alkemy.Challenge.Disney.mappers.GenreMapper;
-import com.alkemy.Alkemy.Challenge.Disney.repositories.GenreRepository;
-import com.alkemy.Alkemy.Challenge.Disney.services.GenreService;
+import com.alkemy.disney.repositories.GenreRepository;
+import com.alkemy.disney.services.GenreService;
+import com.alkemy.disney.dto.GenreDTO;
+import com.alkemy.disney.entities.GenreEntity;
+import com.alkemy.disney.mappers.GenreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

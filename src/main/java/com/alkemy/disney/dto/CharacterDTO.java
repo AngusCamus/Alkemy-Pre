@@ -1,6 +1,6 @@
-package com.alkemy.Alkemy.Challenge.Disney.dto;
+package com.alkemy.disney.dto;
 
-import com.alkemy.Alkemy.Challenge.Disney.entities.MovieEntity;
+import com.alkemy.disney.entities.MovieEntity;
 import lombok.Getter;
 import lombok.Setter;
 

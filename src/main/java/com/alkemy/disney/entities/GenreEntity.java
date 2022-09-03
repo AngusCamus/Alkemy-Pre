@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.alkemy.Disney.entities;
+=======
+package com.alkemy.disney.entities;
+>>>>>>> test
 
 
 import lombok.Getter;
@@ -24,13 +28,7 @@ public class GenreEntity {
     private List<MovieEntity> movies;
 
 
-    public void addMovie (MovieEntity entity){
-        movies.add(entity);
-    }
-
-    public void delMovie (MovieEntity entity){
-        movies.remove(entity);
-    }
+    
 }
 
 

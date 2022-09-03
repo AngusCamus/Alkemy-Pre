@@ -1,6 +1,6 @@
-package com.alkemy.Alkemy.Challenge.Disney.repositories;
+package com.alkemy.disney.repositories;
 
-import com.alkemy.Alkemy.Challenge.Disney.entities.GenreEntity;
+import com.alkemy.disney.entities.GenreEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
