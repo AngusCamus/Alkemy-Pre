@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +34,7 @@ public class MovieEntity {
     @DateTimeFormat
     @Column(name="fecha_creacion")
     private LocalDate creationDate;
+
     @Range(min=1, max=5)
     private Integer rating;
     private boolean deleted = Boolean.FALSE;

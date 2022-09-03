@@ -96,20 +96,20 @@ public class MovieMapper {
     public MovieEntity movieUpdateDTO2Entity(MovieUpdateDTO dto, MovieEntity entity){
 
         MovieEntity entityUpdated = new MovieEntity();
-        entityUpdated.setGenre(dto.getGenre());
+        entityUpdated.setGenre(entity.getGenre());
         entityUpdated.setCreationDate(dto.getCreationDate());
         entityUpdated.setImage(dto.getImage());
         entityUpdated.setRating(dto.getRating());
         entityUpdated.setTitle(dto.getTitle());
         entityUpdated.setId(entity.getId());
         entityUpdated.setCharacters(entity.getCharacters());
+        entityUpdated.setGenreId(entity.getGenreId());
 
         return entityUpdated;
     }
     //E2UpdateDTO
     public MovieUpdateDTO movieEntity2UpdateDTO(MovieEntity entity){
         MovieUpdateDTO movieDTO = new MovieUpdateDTO();
-        movieDTO.setGenre(entity.getGenre());
         movieDTO.setCreationDate(entity.getCreationDate());
         movieDTO.setImage(entity.getImage());
         movieDTO.setRating(entity.getRating());
@@ -126,6 +126,7 @@ public class MovieMapper {
             MovieBasicDTO movieDTO = new MovieBasicDTO();
             movieDTO.setImage(entity.getImage());
             movieDTO.setTitle(entity.getTitle());
+            movieDTO.setCreateDate(entity.getCreationDate());
             dtos.add(movieDTO);
         }
         return dtos;

@@ -4,6 +4,7 @@ import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
 import com.alkemy.disney.entities.GenreEntity;
 import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.exception.RatingMovieValidator;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.mappers.GenreMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
@@ -88,15 +89,22 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateMovie(MovieUpdateDTO dto, Long id) {
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
+        if (!optMovie.isPresent()) {
+            throw new ParamNotFound("Id movie not found");
+        }
         MovieEntity entity = optMovie.get();
-        MovieEntity entityUpdated = movieMapper.movieUpdateDTO2Entity(dto, entity);
+        if( 5<dto.getRating() || dto.getRating() <1){
+            throw new RatingMovieValidator("Rating provide is greater than 5 or less than 1");
+        }
+        MovieEntity entityUpdate = movieMapper.movieUpdateDTO2Entity(dto, entity);
+        MovieEntity entityUpdated =movieRepository.save(entityUpdate);
         MovieDTO movieUpdated = movieMapper.movieEntity2DTO(entityUpdated, true);
         return movieUpdated;
     }
 
     @Override
-    public List<MovieBasicDTO> getAllMovies(String name, String genre, String order) {
-        MovieFilterDTO filterDTO = new MovieFilterDTO(name, genre, order);
+    public List<MovieBasicDTO> getAllMovies(String title, String genre, String order) {
+        MovieFilterDTO filterDTO = new MovieFilterDTO(title, genre, order);
         List<MovieEntity> moviesEntity = movieRepository.findAll(movieSpec.getByFilters(filterDTO));
         List<MovieBasicDTO> movies = movieMapper.movieEntityList2BasicDTOList(moviesEntity);
 

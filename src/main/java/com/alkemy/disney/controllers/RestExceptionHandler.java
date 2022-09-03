@@ -3,6 +3,7 @@ package com.alkemy.disney.controllers;
 import com.alkemy.disney.dto.ApiErrorDTO;
 import com.alkemy.disney.exception.MovieContainsCharacter;
 import com.alkemy.disney.exception.ParamNotFound;
+import com.alkemy.disney.exception.RatingMovieValidator;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
                 Arrays.asList("Movie contain this Character")
+        );
+        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        }
+        @ExceptionHandler(value = {RatingMovieValidator.class})
+        protected ResponseEntity<Object> handleRatingMovieValidator(RuntimeException ex, WebRequest request) {
+        ApiErrorDTO errorDTO = new ApiErrorDTO(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                Arrays.asList("Rating is only between 1 and 5 (include)")
         );
         return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         }

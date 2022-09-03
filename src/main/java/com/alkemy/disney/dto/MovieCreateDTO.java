@@ -13,15 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter@Setter
-public class MovieCreateDTO {
+public class MovieCreateDTO extends MovieUpdateDTO{
 
-    private String title;
-    private String image;
-    @DateTimeFormat
-    private LocalDate creationDate;
-    @Valid
-    @Range(min=1,max=5)
-    private Integer rating;
     private Set<CharacterCreateDTO> characters;
     private GenreCreateDTO genre;
 
