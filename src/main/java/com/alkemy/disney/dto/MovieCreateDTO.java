@@ -16,6 +16,6 @@ import java.util.Set;
 public class MovieCreateDTO extends MovieUpdateDTO{
 
     private Set<CharacterCreateDTO> characters;
-    private GenreCreateDTO genre;
+    private Long genreId;
 
 }
