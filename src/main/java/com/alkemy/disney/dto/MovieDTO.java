@@ -1,6 +1,7 @@
 package com.alkemy.disney.dto;
 
 import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;

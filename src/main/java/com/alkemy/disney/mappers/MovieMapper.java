@@ -29,7 +29,7 @@ public class MovieMapper {
     //E2DTO
     public MovieDTO movieEntity2DTO (MovieEntity entity, boolean loadCharacters){
         MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setGenreId(entity.getGenre().getId());
+        movieDTO.setGenreId(entity.getGenreId());
         movieDTO.setCreationDate(entity.getCreationDate());
         movieDTO.setImage(entity.getImage());
         movieDTO.setId(entity.getId());
@@ -145,11 +145,7 @@ public class MovieMapper {
         //Set Characters to entity.
         Set<CharacterEntity> characterSet = this.characterMapper.characterEntityList2Set(charactersList);
         entity.addCharacters(characterSet);
-        //Save Genre at DB.
-        GenreEntity genre = genreRepository.save(genreMapper.genreCreateDTO2Entity(dto.getGenre()));
-        //Set genre at Entity
-        entity.setGenre(genre);
-        entity.setGenreId(genre.getId());
+        entity.setGenreId(dto.getGenreId());
 
         return entity;
     }
