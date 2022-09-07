@@ -27,15 +27,13 @@ public class UserEntity implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
 
-    public UserEntity(boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+    public UserEntity() {
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
     }
 
-    public UserEntity() {
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
