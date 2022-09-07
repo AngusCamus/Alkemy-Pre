@@ -67,9 +67,10 @@ public class MovieEntity {
 
     }
 
-    public void delCharacter (Long idCharacter) {
-        if(characters.removeIf(e -> e.getId() == idCharacter)){}
-        else{ throw new MovieContainsCharacter("Character not found on this movie");}
+    public void delCharacter (CharacterEntity entity) {
+        if(!characters.remove(entity)){
+            throw new MovieContainsCharacter("Character not found on this movie");
+        }
     }
 
     public void addCharacters(Set<CharacterEntity> charactersSet) {

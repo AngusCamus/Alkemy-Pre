@@ -61,8 +61,11 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public void deleteCharacterById(Long id) {
-        characterRepository.deleteById(id);
-
+        if(characterRepository.findById(id).isPresent()){
+            characterRepository.deleteById(id);
+        }else{
+            throw new ParamNotFound("Id movie not found");
+        }
     }
 
     @Override

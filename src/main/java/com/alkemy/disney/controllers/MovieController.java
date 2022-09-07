@@ -56,7 +56,7 @@ public class MovieController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDTO> updateMovie(@Valid @RequestBody MovieUpdateDTO dto, @PathVariable Long id){
+    public ResponseEntity<MovieDTO> updateMovie(@RequestBody MovieUpdateDTO dto, @PathVariable Long id){
 
         MovieDTO movieUpdated = movieService.updateMovie(dto, id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieUpdated);

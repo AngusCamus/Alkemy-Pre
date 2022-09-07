@@ -1,6 +1,7 @@
 package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.ApiErrorDTO;
+import com.alkemy.disney.exception.GeneralException;
 import com.alkemy.disney.exception.MovieContainsCharacter;
 import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.exception.RatingMovieValidator;
@@ -23,6 +24,15 @@ import java.util.List;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+        @ExceptionHandler(value = {GeneralException.class})
+        protected ResponseEntity<Object> handleExceptions(RuntimeException ex, WebRequest request, HttpStatus status, String error) {
+            ApiErrorDTO errorDTO = new ApiErrorDTO(
+                status,
+                ex.getMessage(),
+                Arrays.asList(error)
+        );
+        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), status, request);
+    }
         @ExceptionHandler(value = {ParamNotFound.class})
         protected ResponseEntity<Object> handleParamNotFound(RuntimeException ex, WebRequest request) {
             ApiErrorDTO errorDTO = new ApiErrorDTO(

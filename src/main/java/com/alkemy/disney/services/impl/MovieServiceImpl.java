@@ -83,7 +83,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+        if(movieRepository.findById(id).isPresent()){
+            movieRepository.deleteById(id);
+        }else{
+            throw new ParamNotFound("Id movie not found");
+        }
+
     }
 
     @Override
@@ -140,13 +145,19 @@ public class MovieServiceImpl implements MovieService {
         if (!optMovie.isPresent()) {
             throw new ParamNotFound("Id movie not found");
         }
-        MovieEntity entity = optMovie.get();
-        entity.delCharacter(idCharacter);
-        movieRepository.save(entity);
+        MovieEntity movie = optMovie.get();
 
-        MovieDTO movie = movieMapper.movieEntity2DTO(entity, true);
+        Optional<CharacterEntity> optChar = characterRepository.findById(idCharacter);
+        if(!optChar.isPresent()){
+            throw new ParamNotFound("Id character not found");
+        }
+        CharacterEntity character = optChar.get();
+        movie.delCharacter(character);
+        movieRepository.save(movie);
 
-        return movie;
+        MovieDTO movieResult = movieMapper.movieEntity2DTO(movie, true);
+
+        return movieResult;
 
     }
 }
