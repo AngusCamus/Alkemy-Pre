@@ -1,10 +1,7 @@
 package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.CharacterBasicDTO;
-<<<<<<< HEAD
-=======
 import com.alkemy.disney.dto.CharacterCreateDTO;
->>>>>>> test
 import com.alkemy.disney.dto.CharacterDTO;
 import com.alkemy.disney.dto.CharacterUpdateDTO;
 import com.alkemy.disney.services.impl.CharacterServiceImpl;

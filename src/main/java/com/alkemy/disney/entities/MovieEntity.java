@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.alkemy.Disney.entities;
-=======
 package com.alkemy.disney.entities;
->>>>>>> test
 
 
 import com.alkemy.disney.dto.CharacterCreateDTO;
