@@ -5,7 +5,8 @@ import com.alkemy.disney.auth.dto.AuthenticationResponse;
 import com.alkemy.disney.auth.dto.UserDTO;
 import com.alkemy.disney.auth.services.JwtUtils;
 import com.alkemy.disney.auth.services.UserDetailsCustomService;
-import io.jsonwebtoken.lang.Collections;
+import com.alkemy.disney.exception.EnumErrors;
+import com.alkemy.disney.exception.UserWrongLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Collection;
-
 @RestController
 @RequestMapping("/auth")
 public class UserAuthController {
@@ -38,13 +37,14 @@ public class UserAuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody UserDTO userDTO) throws Exception{
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody UserDTO userDTO){
+
         userDetailsCustomService.save(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception{
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authRequest)throws UserWrongLogin {
 
         UserDetails userDetails;
 
@@ -53,8 +53,8 @@ public class UserAuthController {
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword())
             );
             userDetails = (UserDetails) auth.getPrincipal();
-        } catch (BadCredentialsException e){
-            throw new Exception("Incorrect username or password", e);
+        } catch (BadCredentialsException e) {
+            throw new UserWrongLogin(EnumErrors.WRONG_CREDENTIALS.getErrorMessage());
         }
         final String jwt = jwtUtils.generateToken(userDetails);
 

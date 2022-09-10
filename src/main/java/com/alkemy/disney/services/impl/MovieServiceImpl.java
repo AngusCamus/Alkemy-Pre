@@ -2,10 +2,8 @@ package com.alkemy.disney.services.impl;
 
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
-import com.alkemy.disney.entities.GenreEntity;
 import com.alkemy.disney.exception.EnumErrors;
 import com.alkemy.disney.exception.ParamNotFound;
-import com.alkemy.disney.exception.RatingMovieValidator;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.mappers.GenreMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
@@ -16,13 +14,10 @@ import com.alkemy.disney.mappers.MovieMapper;
 import com.alkemy.disney.repositories.MovieRepository;
 import com.alkemy.disney.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class MovieServiceImpl implements MovieService {

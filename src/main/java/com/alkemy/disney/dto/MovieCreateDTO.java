@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class MovieCreateDTO extends MovieUpdateDTO{
 
     private Set<CharacterCreateDTO> characters;
     @Positive
+    @NotNull
     private Long genreId;
 
 }

@@ -2,7 +2,6 @@ package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.ApiErrorDTO;
 import com.alkemy.disney.exception.*;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,17 +42,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         //TODO: User already exist
+        @ExceptionHandler(value= UserRegisterError.class)
+        protected ResponseEntity<Object> handleUserRegisterError(RuntimeException ex, WebRequest request){
+            ApiErrorDTO errorDTO = new ApiErrorDTO(
+                    HttpStatus.BAD_REQUEST,
+                    ex.getMessage(),
+                    Arrays.asList(EnumErrors.USER_ALREADY_EXIST.getErrorMessage())
+            );
+            return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        }
         //TODO: Wrong password or email.
-        @ExceptionHandler(value = RatingMovieValidator.class)
-        protected ResponseEntity<Object> handleRatingMovieValidator(RuntimeException ex, WebRequest request) {
-        ApiErrorDTO errorDTO = new ApiErrorDTO(
+        @ExceptionHandler(value= UserWrongLogin.class)
+        protected ResponseEntity<Object> handleUserLoginError(RuntimeException ex, WebRequest request){
+            ApiErrorDTO errorDTO = new ApiErrorDTO(
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
-                Arrays.asList("Rating is only between 1 and 5 (include)")
-        );
-        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                Arrays.asList(EnumErrors.WRONG_CREDENTIALS.getErrorMessage())
+            );
+            return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         }
-
 
         @Override
         protected ResponseEntity<Object> handleMethodArgumentNotValid(
