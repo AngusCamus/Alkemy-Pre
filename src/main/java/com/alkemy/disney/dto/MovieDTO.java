@@ -20,6 +20,6 @@ public class MovieDTO {
     @DateTimeFormat
     private LocalDate creationDate;
     private Integer rating;
-    private Set<CharacterEntity> characters = new HashSet<>();
+    private Set<CharacterDTO> characters = new HashSet<>();
     private Long genreId;
 }

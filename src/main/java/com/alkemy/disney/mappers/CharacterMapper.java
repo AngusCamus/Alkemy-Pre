@@ -30,8 +30,7 @@ public class CharacterMapper {
         charDTO.setName(entity.getName());
         if (loadMovies){
             Set<MovieDTO> movieDTOs = movieMapper.movieEntitySet2DTOSet(entity.getMovies(), false);
-            Set<MovieEntity> movies = movieMapper.movieDTOSet2EntitySet(movieDTOs);
-            charDTO.setMovies(movies);
+            charDTO.setMovies(movieDTOs);
         }
 
         return charDTO;
@@ -44,7 +43,7 @@ public class CharacterMapper {
         charEntity.setHistory(dto.getHistory());
         charEntity.setId(dto.getId());
         charEntity.setImage(dto.getImage());
-        charEntity.setMovies(dto.getMovies());
+        charEntity.setMovies(movieMapper.movieDTOSet2EntitySet(dto.getMovies()));
         charEntity.setName(dto.getName());
         charEntity.setWeight(dto.getWeight());
         return charEntity;

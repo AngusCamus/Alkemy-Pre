@@ -1,16 +1,14 @@
 package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.ApiErrorDTO;
-import com.alkemy.disney.exception.GeneralException;
-import com.alkemy.disney.exception.MovieContainsCharacter;
-import com.alkemy.disney.exception.ParamNotFound;
-import com.alkemy.disney.exception.RatingMovieValidator;
+import com.alkemy.disney.exception.*;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,37 +19,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-        @ExceptionHandler(value = {GeneralException.class})
-        protected ResponseEntity<Object> handleExceptions(RuntimeException ex, WebRequest request, HttpStatus status, String error) {
-            ApiErrorDTO errorDTO = new ApiErrorDTO(
-                status,
-                ex.getMessage(),
-                Arrays.asList(error)
-        );
-        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), status, request);
-    }
-        @ExceptionHandler(value = {ParamNotFound.class})
+        @ExceptionHandler(value = Throwable.class)
+        protected ResponseEntity<Object> handleThrowable(Throwable ex, WebRequest req){
+            ApiErrorDTO apiErrorDTO = new ApiErrorDTO(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage(),
+                    Arrays.asList("")
+            );
+            return handleExceptionInternal((Exception) ex, apiErrorDTO, new HttpHeaders(), apiErrorDTO.getStatus(),req);
+        }
+        @ExceptionHandler(value = ParamNotFound.class)
         protected ResponseEntity<Object> handleParamNotFound(RuntimeException ex, WebRequest request) {
             ApiErrorDTO errorDTO = new ApiErrorDTO(
                     HttpStatus.BAD_REQUEST,
                     ex.getMessage(),
-                    Arrays.asList("Param Not Found")
+                    Arrays.asList(EnumErrors.PARAM.getErrorMessage())
             );
             return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         }
-        @ExceptionHandler(value = {MovieContainsCharacter.class})
-        protected ResponseEntity<Object> handleMovieContainsCharacter(RuntimeException ex, WebRequest request) {
-        ApiErrorDTO errorDTO = new ApiErrorDTO(
-                HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
-                Arrays.asList("Movie contain this Character")
-        );
-        return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-        }
-        @ExceptionHandler(value = {RatingMovieValidator.class})
+
+        //TODO: User already exist
+        //TODO: Wrong password or email.
+        @ExceptionHandler(value = RatingMovieValidator.class)
         protected ResponseEntity<Object> handleRatingMovieValidator(RuntimeException ex, WebRequest request) {
         ApiErrorDTO errorDTO = new ApiErrorDTO(
                 HttpStatus.BAD_REQUEST,
@@ -80,4 +73,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             return handleExceptionInternal(
                     ex, apiError, headers, apiError.getStatus(), request);
         }
+        @Override
+        protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+                HttpRequestMethodNotSupportedException ex,
+                HttpHeaders headers,
+                HttpStatus status,
+                WebRequest request
+        ){
+            ApiErrorDTO apiError = new ApiErrorDTO(
+                    HttpStatus.METHOD_NOT_ALLOWED,
+                    ex.getLocalizedMessage(),
+                    Arrays.asList(EnumErrors.INVALID_METHOD.getErrorMessage()));
+
+            return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+        }
+
+
 }

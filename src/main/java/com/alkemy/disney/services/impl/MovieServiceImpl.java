@@ -3,6 +3,7 @@ package com.alkemy.disney.services.impl;
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
 import com.alkemy.disney.entities.GenreEntity;
+import com.alkemy.disney.exception.EnumErrors;
 import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.exception.RatingMovieValidator;
 import com.alkemy.disney.mappers.CharacterMapper;
@@ -15,8 +16,10 @@ import com.alkemy.disney.mappers.MovieMapper;
 import com.alkemy.disney.repositories.MovieRepository;
 import com.alkemy.disney.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -65,7 +68,7 @@ public class MovieServiceImpl implements MovieService {
 
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
         if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
         MovieEntity movieEntity = optMovie.get();
         MovieDTO movie = movieMapper.movieEntity2DTO(movieEntity, true);
@@ -86,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
         if(movieRepository.findById(id).isPresent()){
             movieRepository.deleteById(id);
         }else{
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
 
     }
@@ -94,13 +97,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateMovie(MovieUpdateDTO dto, Long id) {
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
-        if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
-        }
         MovieEntity entity = optMovie.get();
-        if( 5<dto.getRating() || dto.getRating() <1){
-            throw new RatingMovieValidator("Rating provide is greater than 5 or less than 1");
-        }
         MovieEntity entityUpdate = movieMapper.movieUpdateDTO2Entity(dto, entity);
         MovieEntity entityUpdated =movieRepository.save(entityUpdate);
         MovieDTO movieUpdated = movieMapper.movieEntity2DTO(entityUpdated, true);
@@ -128,7 +125,7 @@ public class MovieServiceImpl implements MovieService {
 
         Optional<MovieEntity> optMovie = movieRepository.findById(idMovie);
         if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
         MovieEntity entity = optMovie.get();
         entity.addCharacter(this.findCharacterById(idCharacter));
@@ -141,22 +138,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO removeCharacter2Movie(Long idMovie, Long idCharacter) {
 
-        Optional<MovieEntity> optMovie = movieRepository.findById(idMovie);
-        if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
-        }
-        MovieEntity movie = optMovie.get();
+        MovieEntity movie = this.movieRepository.findById(idMovie).orElseThrow(
+                () -> new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage()));
 
-        Optional<CharacterEntity> optChar = characterRepository.findById(idCharacter);
-        if(!optChar.isPresent()){
-            throw new ParamNotFound("Id character not found");
-        }
-        CharacterEntity character = optChar.get();
-        movie.delCharacter(character);
+        CharacterEntity character = this.characterRepository.findById(idCharacter).orElseThrow(
+                () -> new ParamNotFound(EnumErrors.ID_CHARACTER.getErrorMessage()));
+
+
+        movie.getCharacters().remove(character);
         movieRepository.save(movie);
-
         MovieDTO movieResult = movieMapper.movieEntity2DTO(movie, true);
-
         return movieResult;
 
     }

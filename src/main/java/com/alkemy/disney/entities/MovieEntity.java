@@ -1,8 +1,8 @@
 package com.alkemy.disney.entities;
 
 
-import com.alkemy.disney.dto.CharacterCreateDTO;
-import com.alkemy.disney.exception.MovieContainsCharacter;
+import com.alkemy.disney.exception.EnumErrors;
+import com.alkemy.disney.exception.ParamNotFound;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,17 +59,11 @@ public class MovieEntity {
 
     public void addCharacter (CharacterEntity entity) {
         if (characters.contains(entity)) {
-            throw new MovieContainsCharacter("The movie contain this character");
+            throw new ParamNotFound(EnumErrors.CHARACTER_IN_MOVIE.getErrorMessage());
         } else {
             characters.add(entity);
         }
 
-    }
-
-    public void delCharacter (CharacterEntity entity) {
-        if(!characters.remove(entity)){
-            throw new MovieContainsCharacter("Character not found on this movie");
-        }
     }
 
     public void addCharacters(Set<CharacterEntity> charactersSet) {
