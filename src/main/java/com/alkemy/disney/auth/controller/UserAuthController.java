@@ -5,6 +5,7 @@ import com.alkemy.disney.auth.dto.AuthenticationResponse;
 import com.alkemy.disney.auth.dto.UserDTO;
 import com.alkemy.disney.auth.services.JwtUtils;
 import com.alkemy.disney.auth.services.UserDetailsCustomService;
+import com.alkemy.disney.auth.services.UserService;
 import com.alkemy.disney.exception.EnumErrors;
 import com.alkemy.disney.exception.UserWrongLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,39 +26,22 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class UserAuthController {
 
-    private UserDetailsCustomService userDetailsCustomService;
-    private AuthenticationManager authenticationManager;
-    private JwtUtils jwtUtils;
-
     @Autowired
-    public UserAuthController(UserDetailsCustomService userDetailsCustomService, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
-        this.userDetailsCustomService = userDetailsCustomService;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-    }
+    private UserDetailsCustomService userDetailsCustomService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody UserDTO userDTO){
 
-        userDetailsCustomService.save(userDTO);
+        userService.save(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authRequest)throws UserWrongLogin {
 
-        UserDetails userDetails;
-
-        try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword())
-            );
-            userDetails = (UserDetails) auth.getPrincipal();
-        } catch (BadCredentialsException e) {
-            throw new UserWrongLogin(EnumErrors.WRONG_CREDENTIALS.getErrorMessage());
-        }
-        final String jwt = jwtUtils.generateToken(userDetails);
-
+        String jwt = userService.userAuth(authRequest);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }
