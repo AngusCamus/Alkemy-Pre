@@ -14,6 +14,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,7 +28,8 @@ public class UserService {
     private JwtUtils jwtUtils;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -34,12 +37,13 @@ public class UserService {
         this.userExist(userDTO);
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userDTO.getUsername());
+        //passwordEncoder.encode(userDTO.getPassword())
         userEntity.setPassword(userDTO.getPassword());
         userEntity = userRepository.save(userEntity);
 
         if(userEntity != null){
             emailService.sendWelcomeEmail(userEntity.getUsername());
-        }; //email
+        };
 
         return userEntity != null;
     }
