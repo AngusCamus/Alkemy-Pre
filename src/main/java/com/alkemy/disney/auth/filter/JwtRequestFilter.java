@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtil;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private DaoAuthenticationProvider authenticationManager;
 
 
     @Override

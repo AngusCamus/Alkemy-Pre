@@ -11,6 +11,7 @@ public class MovieFilterDTO {
 
     private String title;
     private String genreId;
+
     private String order;
 
 

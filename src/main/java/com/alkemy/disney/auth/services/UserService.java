@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,7 @@ public class UserService {
     @Autowired
     private EmailServiceImpl emailService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private DaoAuthenticationProvider authProvider;
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
@@ -57,7 +58,7 @@ public class UserService {
     public String userAuth(AuthenticationRequest authRequest){
         UserDetails userDetails;
         try {
-            Authentication auth = authenticationManager.authenticate(
+            Authentication auth = authProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(auth);

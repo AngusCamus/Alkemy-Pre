@@ -4,6 +4,7 @@ import com.alkemy.disney.auth.filter.JwtRequestFilter;
 import com.alkemy.disney.auth.services.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -26,20 +28,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
         private JwtRequestFilter jwtRequestFilter;
 
-
-        @Override
         @Bean
-        public AuthenticationManager authenticationManagerBean() throws Exception{
-            return super.authenticationManagerBean();
+        public DaoAuthenticationProvider authProvider(){
+            DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+            authProvider.setUserDetailsService(userDetailsCustomService);
+            authProvider.setPasswordEncoder(encoder());
+            return authProvider;
         }
         @Bean
-        public PasswordEncoder passwordEncoder(){
+        public PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-            auth.userDetailsService(userDetailsCustomService).passwordEncoder(passwordEncoder());
+            auth.authenticationProvider(authProvider());
         }
 
 

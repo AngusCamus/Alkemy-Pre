@@ -1,12 +1,8 @@
-
 package com.alkemy.disney.services.impl;
 
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
-<<<<<<< HEAD
 import com.alkemy.disney.exception.EnumErrors;
-=======
->>>>>>> 3c4a0caa1a68e5a5d26ec1faee1f17b6d6b2cf3f
 import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.mappers.GenreMapper;
@@ -17,35 +13,23 @@ import com.alkemy.disney.entities.MovieEntity;
 import com.alkemy.disney.mappers.MovieMapper;
 import com.alkemy.disney.repositories.MovieRepository;
 import com.alkemy.disney.services.MovieService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import java.util.Set;
->>>>>>> test
-=======
->>>>>>> test
 
-=======
->>>>>>> 3c4a0caa1a68e5a5d26ec1faee1f17b6d6b2cf3f
 @Service
 public class MovieServiceImpl implements MovieService {
-
     //Movie
     MovieRepository movieRepository;
     MovieMapper movieMapper;
     MovieSpec movieSpec;
-
     //Character
     CharacterServiceImpl characterService;
     CharacterRepository characterRepository;
     CharacterMapper characterMapper;
-
     //Genre
     GenreMapper genreMapper;
     GenreRepository genreRepository;
@@ -107,19 +91,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO updateMovie(MovieUpdateDTO dto, Long id) {
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        MovieEntity entity = optMovie.get();
-        MovieEntity entityUpdated = movieMapper.movieUpdateDTO2Entity(dto, entity);
-=======
-=======
->>>>>>> 3c4a0caa1a68e5a5d26ec1faee1f17b6d6b2cf3f
         if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
-=======
->>>>>>> test
         MovieEntity entity = optMovie.get();
         MovieEntity entityUpdate = movieMapper.movieUpdateDTO2Entity(dto, entity);
         MovieEntity entityUpdated =movieRepository.save(entityUpdate);
