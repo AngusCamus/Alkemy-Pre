@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.alkemy.Disney.config;
-=======
 package com.alkemy.disney.config;
->>>>>>> test
 
 
 import org.springframework.context.annotation.Bean;

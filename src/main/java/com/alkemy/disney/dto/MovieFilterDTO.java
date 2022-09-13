@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-package com.alkemy.Alkemy.Challenge.Disney.dto;
-=======
+
 package com.alkemy.disney.dto;
->>>>>>> test
 
 
 import lombok.Getter;
@@ -14,18 +11,6 @@ public class MovieFilterDTO {
 
     private String title;
     private String genreId;
-<<<<<<< HEAD
-    private String order;
-
-    public MovieFilterDTO(String name, String genreId, String order) {
-    }
-
-
-    public boolean isASC(){
-        return order.compareToIgnoreCase("ASC") == 0;
-    }
-=======
-
     private String order;
 
 
@@ -40,7 +25,6 @@ public class MovieFilterDTO {
 
     }
 
->>>>>>> test
     public boolean isDESC(){
         return order.compareToIgnoreCase("DESC") == 0;
     }
