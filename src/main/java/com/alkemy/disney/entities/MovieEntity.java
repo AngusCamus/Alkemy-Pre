@@ -5,17 +5,17 @@ package com.alkemy.disney.entities;
 >>>>>>> test
 
 
-import com.alkemy.disney.dto.CharacterCreateDTO;
-import com.alkemy.disney.exception.MovieContainsCharacter;
+import com.alkemy.disney.exception.EnumErrors;
+import com.alkemy.disney.exception.ParamNotFound;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +32,7 @@ public class MovieEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "movie_id")
     private Long id;
-
+    @Length(max = 30)
     private String title;
     private String image;
     @DateTimeFormat
@@ -63,16 +63,11 @@ public class MovieEntity {
 
     public void addCharacter (CharacterEntity entity) {
         if (characters.contains(entity)) {
-            throw new MovieContainsCharacter("The movie contain this character");
+            throw new ParamNotFound(EnumErrors.CHARACTER_IN_MOVIE.getErrorMessage());
         } else {
             characters.add(entity);
         }
 
-    }
-
-    public void delCharacter (Long idCharacter) {
-        if(characters.removeIf(e -> e.getId() == idCharacter)){}
-        else{ throw new MovieContainsCharacter("Character not found on this movie");}
     }
 
     public void addCharacters(Set<CharacterEntity> charactersSet) {

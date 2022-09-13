@@ -37,15 +37,14 @@ public class MovieMapper {
         movieDTO.setTitle(entity.getTitle());
         if (loadCharacters){
             Set<CharacterDTO> charDTOs = characterMapper.characterEntitySet2DTOSet(entity.getCharacters(), false);
-            Set<CharacterEntity> characters = characterMapper.characterDTOSet2EntitySet(charDTOs);
-            movieDTO.setCharacters(characters);
+            movieDTO.setCharacters(charDTOs);
         }
         return movieDTO;
     }
     //DTO2E
     public MovieEntity movieDTO2Entity (MovieDTO dto){
         MovieEntity entity = new MovieEntity();
-        entity.setCharacters(dto.getCharacters());
+        entity.setCharacters(characterMapper.characterDTOSet2EntitySet((dto.getCharacters())));
         entity.setGenreId(dto.getGenreId());
         entity.setCreationDate(dto.getCreationDate());
         entity.setImage(dto.getImage());

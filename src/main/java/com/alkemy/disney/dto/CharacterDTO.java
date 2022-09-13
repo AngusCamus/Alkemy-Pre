@@ -17,6 +17,6 @@ public class CharacterDTO {
     private Integer age;
     private Integer weight;
     private String history;
-    private Set<MovieEntity> movies = new HashSet<>();
+    private Set<MovieDTO> movies = new HashSet<>();
 
 }

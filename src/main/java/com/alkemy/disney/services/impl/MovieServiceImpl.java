@@ -15,9 +15,8 @@ package com.alkemy.disney.services.impl;
 
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
-import com.alkemy.disney.entities.GenreEntity;
+import com.alkemy.disney.exception.EnumErrors;
 import com.alkemy.disney.exception.ParamNotFound;
-import com.alkemy.disney.exception.RatingMovieValidator;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.mappers.GenreMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
@@ -34,8 +33,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import java.util.Set;
+>>>>>>> test
+=======
 >>>>>>> test
 
 @Service
@@ -103,7 +105,7 @@ public class MovieServiceImpl implements MovieService {
 
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
         if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
 >>>>>>> test
         MovieEntity movieEntity = optMovie.get();
@@ -122,12 +124,18 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+        if(movieRepository.findById(id).isPresent()){
+            movieRepository.deleteById(id);
+        }else{
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
+        }
+
     }
 
     @Override
     public MovieDTO updateMovie(MovieUpdateDTO dto, Long id) {
         Optional<MovieEntity> optMovie = movieRepository.findById(id);
+<<<<<<< HEAD
 <<<<<<< HEAD
         MovieEntity entity = optMovie.get();
         MovieEntity entityUpdated = movieMapper.movieUpdateDTO2Entity(dto, entity);
@@ -135,10 +143,9 @@ public class MovieServiceImpl implements MovieService {
         if (!optMovie.isPresent()) {
             throw new ParamNotFound("Id movie not found");
         }
+=======
+>>>>>>> test
         MovieEntity entity = optMovie.get();
-        if( 5<dto.getRating() || dto.getRating() <1){
-            throw new RatingMovieValidator("Rating provide is greater than 5 or less than 1");
-        }
         MovieEntity entityUpdate = movieMapper.movieUpdateDTO2Entity(dto, entity);
         MovieEntity entityUpdated =movieRepository.save(entityUpdate);
 >>>>>>> test
@@ -175,7 +182,7 @@ public class MovieServiceImpl implements MovieService {
 
         Optional<MovieEntity> optMovie = movieRepository.findById(idMovie);
         if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
+            throw new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage());
         }
         MovieEntity entity = optMovie.get();
         entity.addCharacter(this.findCharacterById(idCharacter));
@@ -188,17 +195,17 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO removeCharacter2Movie(Long idMovie, Long idCharacter) {
 
-        Optional<MovieEntity> optMovie = movieRepository.findById(idMovie);
-        if (!optMovie.isPresent()) {
-            throw new ParamNotFound("Id movie not found");
-        }
-        MovieEntity entity = optMovie.get();
-        entity.delCharacter(idCharacter);
-        movieRepository.save(entity);
+        MovieEntity movie = this.movieRepository.findById(idMovie).orElseThrow(
+                () -> new ParamNotFound(EnumErrors.ID_MOVIE.getErrorMessage()));
 
-        MovieDTO movie = movieMapper.movieEntity2DTO(entity, true);
+        CharacterEntity character = this.characterRepository.findById(idCharacter).orElseThrow(
+                () -> new ParamNotFound(EnumErrors.ID_CHARACTER.getErrorMessage()));
 
-        return movie;
+
+        movie.getCharacters().remove(character);
+        movieRepository.save(movie);
+        MovieDTO movieResult = movieMapper.movieEntity2DTO(movie, true);
+        return movieResult;
 
     }
 }

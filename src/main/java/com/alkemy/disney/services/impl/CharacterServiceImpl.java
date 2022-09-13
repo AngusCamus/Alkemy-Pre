@@ -2,12 +2,14 @@ package com.alkemy.disney.services.impl;
 
 import com.alkemy.disney.dto.*;
 import com.alkemy.disney.entities.CharacterEntity;
+import com.alkemy.disney.exception.EnumErrors;
 import com.alkemy.disney.exception.ParamNotFound;
 import com.alkemy.disney.repositories.specifications.CharacterSpec;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
 import com.alkemy.disney.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class CharacterServiceImpl implements CharacterService {
 
         Optional<CharacterEntity> optChar = characterRepository.findById(id);
         if(!optChar.isPresent()) {
-            throw new ParamNotFound("Id character not found");
+            throw new ParamNotFound(EnumErrors.ID_CHARACTER.getErrorMessage());
         }
         CharacterEntity character = optChar.get();
         CharacterDTO charDTO = characterMapper.characterEntity2DTO(character, true);
@@ -61,8 +63,11 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public void deleteCharacterById(Long id) {
-        characterRepository.deleteById(id);
-
+        if(characterRepository.findById(id).isPresent()){
+            characterRepository.deleteById(id);
+        }else{
+            throw new ParamNotFound(EnumErrors.ID_CHARACTER.getErrorMessage());
+        }
     }
 
     @Override

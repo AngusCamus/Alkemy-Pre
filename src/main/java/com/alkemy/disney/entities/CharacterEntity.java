@@ -9,8 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,8 +29,11 @@ public class CharacterEntity {
     private Long id;
     private String image;
     private String name;
+    @Positive
     private Integer age;
+    @Positive
     private Integer weight;
+    @Length(max = 200)
     private String history;
     private boolean deleted = Boolean.FALSE;
 
