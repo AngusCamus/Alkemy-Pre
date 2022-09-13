@@ -11,6 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -50,10 +52,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             if(jwtUtil.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authReq =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
+                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword());
 
-                Authentication auth = authenticationManager.authenticate(authReq);
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                authReq.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authReq);
             }
         }
         filterChain.doFilter(request, response);

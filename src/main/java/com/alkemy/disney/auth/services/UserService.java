@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,8 +38,8 @@ public class UserService {
         this.userExist(userDTO);
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userDTO.getUsername());
-        //passwordEncoder.encode(userDTO.getPassword())
-        userEntity.setPassword(userDTO.getPassword());
+        String password = passwordEncoder.encode(userDTO.getPassword());
+        userEntity.setPassword(password);
         userEntity = userRepository.save(userEntity);
 
         if(userEntity != null){
@@ -59,6 +60,7 @@ public class UserService {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword())
             );
+            SecurityContextHolder.getContext().setAuthentication(auth);
             userDetails = (UserDetails) auth.getPrincipal();
         } catch (BadCredentialsException e) {
             throw new UserWrongLogin(EnumErrors.WRONG_CREDENTIALS.getErrorMessage());
