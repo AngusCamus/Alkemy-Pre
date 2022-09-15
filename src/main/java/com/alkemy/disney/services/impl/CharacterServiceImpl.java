@@ -8,6 +8,7 @@ import com.alkemy.disney.repositories.specifications.CharacterSpec;
 import com.alkemy.disney.mappers.CharacterMapper;
 import com.alkemy.disney.repositories.CharacterRepository;
 import com.alkemy.disney.services.CharacterService;
+import org.hibernate.QueryParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,7 @@ public class CharacterServiceImpl implements CharacterService {
         List<CharacterEntity> entities = characterRepository.findAll(characterSpec.getByFilters(filterDTO));
 
         List<CharacterBasicDTO> characters = characterMapper.characterEntityList2BasicDTOList(entities);
+
         return characters;
     }
 

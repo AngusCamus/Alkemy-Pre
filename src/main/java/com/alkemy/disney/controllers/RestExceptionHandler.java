@@ -2,6 +2,7 @@ package com.alkemy.disney.controllers;
 
 import com.alkemy.disney.dto.ApiErrorDTO;
 import com.alkemy.disney.exception.*;
+import com.sendgrid.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,6 +95,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
             return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
         }
-
 
 }
